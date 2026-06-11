@@ -25,3 +25,28 @@
 .stopButton:hover {
   background-color: #bd2130;
 }
+
+/* 最初は普通の数字、3秒後にこのクラスが追加される */
+.stealth {
+  animation: fadeOutBlur 1.2s forwards; /* 1.2秒かけてアニメーション、終了時の状態(消えた状態)をキープ */
+  color: #28a745;
+}
+
+/* ボヤけながら拡大し、消え去るアニメーションの定義 */
+@keyframes fadeOutBlur {
+  0% {
+    transform: scale(1);
+    filter: blur(0px);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    filter: blur(4px);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    filter: blur(12px);
+    opacity: 0;
+  }
+}

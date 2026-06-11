@@ -6,12 +6,17 @@ type StopScreenProps = {
 };
 
 export function StopScreen({ onStop, elapsedTime }: StopScreenProps) {
+  // 3.00秒が経過したかどうかの判定フラグ
+  const isStealthActive = elapsedTime >= 3.0;
+
+  // 動的にクラス名を切り替える（3秒過ぎたら stealth クラスを追加）
+  const counterClassName = `${styles.counter} ${isStealthActive ? styles.stealth : ''}`;
+
   return (
     <div className={styles.container}>
-      {/* リアルタイムに届く数値を画面に表示する。toFixed(2)で小数点以下2桁に固定 */}
-      <p className={styles.counter}>{elapsedTime.toFixed(2)} 秒</p>
-
-      {/* 親から貰った関数をボタンのクリックイベントに仕込む */}
+      {/* 動的に決定したクラス名を適用 */}
+      <p className={counterClassName}>{elapsedTime.toFixed(2)} 秒</p>
+      
       <button className={styles.stopButton} onClick={onStop}>
         ストップ！
       </button>
