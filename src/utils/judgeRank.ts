@@ -1,4 +1,4 @@
-export type Rank = 'SS' | 'A' | 'B' | 'C' | 'D';
+export type Rank = 'SS' | 'A' | 'B' | 'C' | 'D' | 'TIME_UP';
 
 export type JudgeResult = {
   rank: Rank;
@@ -7,6 +7,11 @@ export type JudgeResult = {
 };
 
 export function judgeRank(measuredTime: number): JudgeResult {
+  // 🌟 20秒以上の場合はタイムアップ判定を最優先で返す
+  if (measuredTime >= 20.00) {
+    return { rank: 'TIME_UP', message: 'タイムアップ！10秒を大幅に過ぎてしまいました。', color: '#dc3545' };
+  }
+
   const error = Math.abs(measuredTime - 10.00);
 
   if (error === 0) return { rank: 'SS', message: '文句なし！ぴったり10秒！', color: '#ffcc00' };
