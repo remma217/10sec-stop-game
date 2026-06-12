@@ -10,7 +10,7 @@ type GameState = 'START' | 'STOP' | 'RESULT';
 function App() {
   const [gameState, setGameState] = useState<GameState>('START');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  
+
   // 計測した経過時間（秒単位、例: 1.234）を管理するState
   const [elapsedTime, setElapsedTime] = useState<number>(0);
 
@@ -22,17 +22,29 @@ function App() {
   const handleStart = () => {
     setElapsedTime(0);
     setGameState('STOP');
-    
+
     // 開始時刻を高精度タイムスタンプで記録
     startTimeRef.current = window.performance.now();
 
     // ループ関数を定義してリアルタイムに時間を更新
     const updateTimer = () => {
       const currentTime = window.performance.now();
-      // ミリ秒を秒（s）に変換してStateを更新
-      setElapsedTime((currentTime - startTimeRef.current) / 1000);
-      
-      // 次のフレームでも実行するように予約
+      const currentElapsed = (currentTime - startTimeRef.current) / 1000;
+
+      // 20秒の上限チェック
+      if (currentElapsed >= 20.00) {
+        // タイマー停止
+        if (timerIdRef.current !== null) {
+          cancelAnimationFrame(timerIdRef.current);
+          timerIdRef.current = null;
+        }
+        setElapsedTime(20.00); // ぴったり20秒として記録
+        setGameState('RESULT'); // 強制的に結果画面へ
+        return;
+      }
+
+      // 20秒未満なら通常通りカウントアップを続ける
+      setElapsedTime(currentElapsed);
       timerIdRef.current = requestAnimationFrame(updateTimer);
     };
 
@@ -71,17 +83,17 @@ function App() {
   }, []);
 
   return (
-    <div style={{ 
+    <div style={{
       textAlign: 'center',
       padding: '40px 20px',
       maxWidth: '600px',
       margin: '0 auto',
       position: 'relative'
     }}>
-      
+
       {/* ランク一覧を見る ボタン */}
       <div style={{ textAlign: 'right', marginBottom: '20px' }}>
-        <button 
+        <button
           onClick={() => setIsModalOpen(true)}
           style={{
             background: 'none',
