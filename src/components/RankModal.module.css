@@ -13,12 +13,12 @@
 
 .window {
   background-color: #fff;
-  padding: 25px;
+  padding: 30px;
   border-radius: 8px;
-  max-width: 400px;
   width: 90%;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  text-align: left;
+  max-width: 520px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
 }
 
 .title {
@@ -29,7 +29,8 @@
 .table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  table-layout: fixed;
 }
 
 .tableHeader {

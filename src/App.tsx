@@ -117,7 +117,7 @@ function App() {
             textDecoration: 'underline'
           }}
         >
-          ℹ️ ランク一覧を見る
+          ℹ️ ランク判定基準
         </button>
       </div>
 
