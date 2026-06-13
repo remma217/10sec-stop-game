@@ -10,11 +10,11 @@ type GameState = 'START' | 'STOP' | 'RESULT';
 function App() {
   const [gameState, setGameState] = useState<GameState>('START');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  // 計測した経過時間（秒単位、例: 1.234）を管理するState
   const [elapsedTime, setElapsedTime] = useState<number>(0);
-
-  // useRef を使って、再レンダリングを発生させずにタイマーの情報を保持する
+  const [bestTime, setBestTime] = useState<number | null>(() => {
+    const saved = localStorage.getItem('best_measured_time');
+    return saved ? parseFloat(saved) : null;
+  });
   const startTimeRef = useRef<number>(0);
   const timerIdRef = useRef<number | null>(null);
 
@@ -33,7 +33,6 @@ function App() {
 
       // 20秒の上限チェック
       if (currentElapsed >= 20.00) {
-        // タイマー停止
         if (timerIdRef.current !== null) {
           cancelAnimationFrame(timerIdRef.current);
           timerIdRef.current = null;
@@ -63,11 +62,25 @@ function App() {
     // 最終的な確定時間を計測してセット（ミリ秒未満のわずかなズレもここで完全に補正）
     const finalTime = (window.performance.now() - startTimeRef.current) / 1000;
     setElapsedTime(finalTime);
-
     setGameState('RESULT');
+
+    // 自己ベスト判定のロジック
+    // タイムアップ（20秒）の場合は自己ベスト判定から除外する
+    if (finalTime < 20.00) {
+      // 今回の誤差を計算
+      const currentDiff = Math.abs(finalTime - 10.00);
+
+      // 過去の自己ベストの「誤差」を計算（bestTimeが存在する場合のみ）
+      const previousBestDiff = bestTime !== null ? Math.abs(bestTime - 10.00) : null;
+
+      // 過去の記録が無い、または「今回の誤差」の方が「過去のベスト誤差」より小さければ更新！
+      if (previousBestDiff === null || currentDiff < previousBestDiff) {
+        setBestTime(finalTime);
+        localStorage.setItem('best_measured_time', finalTime.toString());
+      }
+    }
   };
 
-  // リスタート処理
   const handleRestart = () => {
     setElapsedTime(0);
     setGameState('START');
@@ -104,27 +117,32 @@ function App() {
             textDecoration: 'underline'
           }}
         >
-          ℹ️ ランク一覧を見る
+          ℹ️ ランク判定基準
         </button>
       </div>
 
       <h1>⏱️ 10秒ストップゲーム</h1>
 
-      {gameState === 'START' && (
-        <StartScreen onStart={handleStart} />
-      )}
-
-      {gameState === 'STOP' && (
-        /* 経過時間を StopScreen に渡してリアルタイム表示できるようにする */
-        <StopScreen onStop={handleStop} elapsedTime={elapsedTime} />
-      )}
-
-      {gameState === 'RESULT' && (
-        /* 実際に計測された時間を ResultScreen に渡す */
-        <ResultScreen measuredTime={elapsedTime} onRestart={handleRestart} />
-      )}
+      {gameState === 'START' && <StartScreen onStart={handleStart} />}
+      {gameState === 'STOP' && <StopScreen onStop={handleStop} elapsedTime={elapsedTime} />}
+      {gameState === 'RESULT' && <ResultScreen measuredTime={elapsedTime} onRestart={handleRestart} />}
 
       <RankModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
+      {/* 画面最下部への自己ベスト表示エリア */}
+      <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px dashed #ccc', color: '#555' }}>
+        {bestTime !== null ? (
+          <p style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+            👑 自己ベスト: <span style={{ color: '#ff4d4d' }}>{bestTime.toFixed(2)} 秒</span>
+            <span style={{ fontSize: '0.9rem', color: '#888', fontWeight: 'normal', marginLeft: '8px' }}>
+              (誤差: {Math.abs(bestTime - 10.00).toFixed(2)}秒)
+            </span>
+          </p>
+        ) : (
+          <p style={{ fontStyle: 'italic', color: '#888' }}>まだ記録がありません。早速チャレンジ！</p>
+        )}
+      </div>
+
     </div>
   );
 }
