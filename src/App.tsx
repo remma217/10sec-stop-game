@@ -3,6 +3,7 @@ import { StartScreen } from './components/StartScreen';
 import { StopScreen } from './components/StopScreen';
 import { ResultScreen } from './components/ResultScreen';
 import { RankModal } from './components/RankModal';
+import styles from './App.module.css';
 
 // 画面仕様と状態遷移（GameState）の型定義
 type GameState = 'START' | 'STOP' | 'RESULT';
@@ -37,8 +38,8 @@ function App() {
           cancelAnimationFrame(timerIdRef.current);
           timerIdRef.current = null;
         }
-        setElapsedTime(20.00); // ぴったり20秒として記録
-        setGameState('RESULT'); // 強制的に結果画面へ
+        setElapsedTime(20.00);
+        setGameState('RESULT');
         return;
       }
 
@@ -96,32 +97,16 @@ function App() {
   }, []);
 
   return (
-    <div style={{
-      textAlign: 'center',
-      padding: '40px 20px',
-      maxWidth: '600px',
-      margin: '0 auto',
-      position: 'relative'
-    }}>
-
-      {/* ランク一覧を見る ボタン */}
-      <div style={{ textAlign: 'right', marginBottom: '20px' }}>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          style={{
-            background: 'none',
-            border: 'none',
-            fontSize: '1rem',
-            cursor: 'pointer',
-            color: '#007bff',
-            textDecoration: 'underline'
-          }}
-        >
+    <div className={styles.appContainer}>
+      
+      {/* ℹ️ ランク一覧を見る ボタンエリア */}
+      <div className={styles.header}>
+        <button onClick={() => setIsModalOpen(true)} className={styles.modalTrigger}>
           ℹ️ ランク判定基準
         </button>
       </div>
 
-      <h1>⏱️ 10秒ストップゲーム</h1>
+      <h1 className={styles.title}>⏱️ 10秒ストップゲーム</h1>
 
       {gameState === 'START' && <StartScreen onStart={handleStart} />}
       {gameState === 'STOP' && <StopScreen onStop={handleStop} elapsedTime={elapsedTime} />}
@@ -129,17 +114,17 @@ function App() {
 
       <RankModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-      {/* 画面最下部への自己ベスト表示エリア */}
-      <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px dashed #ccc', color: '#555' }}>
+      {/* 自己ベスト表示・管理エリア */}
+      <div className={styles.bestScoreContainer}>
         {bestTime !== null ? (
-          <p style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-            👑 自己ベスト: <span style={{ color: '#ff4d4d' }}>{bestTime.toFixed(2)} 秒</span>
-            <span style={{ fontSize: '0.9rem', color: '#888', fontWeight: 'normal', marginLeft: '8px' }}>
+          <p className={styles.bestScoreText}>
+            👑 自己ベスト: <span className={styles.bestScoreValue}>{bestTime.toFixed(2)} 秒</span>
+            <span className={styles.bestScoreSub}>
               (誤差: {Math.abs(bestTime - 10.00).toFixed(2)}秒)
             </span>
           </p>
         ) : (
-          <p style={{ fontStyle: 'italic', color: '#888' }}>まだ記録がありません。早速チャレンジ！</p>
+          <p className={styles.noRecordText}>まだ記録がありません。早速チャレンジ！</p>
         )}
       </div>
 
