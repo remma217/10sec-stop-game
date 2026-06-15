@@ -63,3 +63,20 @@
   font-style: italic;
   color: #888;
 }
+
+/* リセットボタン */
+.resetButton {
+  margin-left: 12px;
+  color: #dc3545;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.resetButton:hover {
+  background-color: #f8d7da;
+}

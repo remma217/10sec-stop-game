@@ -87,7 +87,14 @@ function App() {
     setGameState('START');
   };
 
-  // コンポーネントがアンマウントされたときにタイマーを確実にクリアする安全策
+  // 自己ベストクリア処理
+  const handleResetBest = () => {
+    if (window.confirm('これまでの自己ベストの記録を完全にリセットしますか？')) {
+      localStorage.removeItem('best_measured_time');
+      setBestTime(null);
+    }
+  };
+
   useEffect(() => {
     return () => {
       if (timerIdRef.current !== null) {
@@ -122,6 +129,10 @@ function App() {
             <span className={styles.bestScoreSub}>
               (誤差: {Math.abs(bestTime - 10.00).toFixed(2)}秒)
             </span>
+            {/* リセットボタン */}
+            <button onClick={handleResetBest} className={styles.resetButton} title="記録をリセット">
+              [クリア]
+            </button>
           </p>
         ) : (
           <p className={styles.noRecordText}>まだ記録がありません。早速チャレンジ！</p>
