@@ -67,11 +67,11 @@
   color: #666;
 }
 
-.rankSS { color: #ffcc00; }
-.rankA { color: #ff4d4d; }
-.rankB { color: #007bff; }
-.rankC { color: #28a745; }
-.rankD { color: #6c757d; }
+.rankSS { color: var(--rank-color-ss, #ffcc00); }
+.rankA { color: var(--rank-color-a, #ff4d4d); }
+.rankB { color: var(--rank-color-b, #007bff); }
+.rankC { color: var(--rank-color-c, #28a745); }
+.rankD { color: var(--rank-color-d, #6c757d); }
 
 .closeButtonContainer {
   text-align: center;
