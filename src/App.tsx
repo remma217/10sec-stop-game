@@ -3,6 +3,7 @@ import { StartScreen } from './components/StartScreen';
 import { StopScreen } from './components/StopScreen';
 import { ResultScreen } from './components/ResultScreen';
 import { RankModal } from './components/RankModal';
+import { judgeRank } from './utils/judgeRank';
 import styles from './App.module.css';
 
 // 画面仕様と状態遷移（GameState）の型定義
@@ -74,7 +75,7 @@ function App() {
       // 過去の自己ベストの「誤差」を計算（bestTimeが存在する場合のみ）
       const previousBestDiff = bestTime !== null ? Math.abs(bestTime - 10.00) : null;
 
-      // 過去の記録が無い、または「今回の誤差」の方が「過去のベスト誤差」より小さければ更新！
+      // 過去の記録が無い、または「今回の誤差」の方が「過去のベスト誤差」より小さければ更新
       if (previousBestDiff === null || currentDiff < previousBestDiff) {
         setBestTime(finalTime);
         localStorage.setItem('best_measured_time', finalTime.toString());
@@ -124,16 +125,25 @@ function App() {
       {/* 自己ベスト表示・管理エリア */}
       <div className={styles.bestScoreContainer}>
         {bestTime !== null ? (
-          <p className={styles.bestScoreText}>
-            👑 自己ベスト: <span className={styles.bestScoreValue}>{bestTime.toFixed(2)} 秒</span>
-            <span className={styles.bestScoreSub}>
-              (誤差: {Math.abs(bestTime - 10.00).toFixed(2)}秒)
-            </span>
-            {/* リセットボタン */}
-            <button onClick={handleResetBest} className={styles.resetButton} title="記録をリセット">
-              [リセット]
-            </button>
-          </p>
+          /* 描画する直前に、現在の自己ベスト時間を judgeRank に通してランク（SS〜D）と動的カラーを取り出す */
+          (() => {
+            const { rank, color } = judgeRank(bestTime);
+            return (
+              <p className={styles.bestScoreText}>
+                👑 自己ベスト: <span className={styles.bestScoreValue}>{bestTime.toFixed(2)} 秒</span>
+                <span style={{ color: color, fontWeight: 'bold', marginLeft: '8px' }}>
+                  [ランク{rank}]
+                </span>
+                <span className={styles.bestScoreSub}>
+                  (誤差: {Math.abs(bestTime - 10.00).toFixed(2)}秒)
+                </span>
+                {/* リセットボタン */}
+                <button onClick={handleResetBest} className={styles.resetButton} title="記録をリセット">
+                  [リセット]
+                </button>
+              </p>
+            );
+          })()
         ) : (
           <p className={styles.noRecordText}>まだ記録がありません。早速チャレンジ！</p>
         )}
