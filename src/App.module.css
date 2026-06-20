@@ -53,7 +53,7 @@
 }
 
 .bestScoreSub {
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   color: #888;
   font-weight: normal;
   margin-left: 8px;
@@ -71,7 +71,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1.15rem;
   padding: 4px 8px;
   border-radius: 4px;
   transition: background-color 0.2s;

@@ -14,6 +14,8 @@ export function StopScreen({ onStop, elapsedTime }: StopScreenProps) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.statusText}>計測中...</div>
+
       {/* 動的に決定したクラス名を適用 */}
       <p className={counterClassName}>{elapsedTime.toFixed(2)} 秒</p>
       

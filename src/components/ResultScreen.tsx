@@ -34,11 +34,12 @@ export function ResultScreen({ measuredTime, onRestart }: ResultScreenProps) {
   const dynamicBgColor = getBackgroundColor(rank);
 
   return (
-    /* 枠線の色（border）だけ、動的カラーを適用するためにインラインで残す */
-    <div className={styles.container} style={{ border: `3px solid ${color}` }}>
+    <div 
+      className={styles.container} 
+      style={{ border: `3px solid ${color}`, backgroundColor: dynamicBgColor }}
+    >
       <h2 className={styles.title}>📊 結果発表</h2>
 
-      {/* 🌟 タイムアップかどうかで表示を分ける */}
       {rank === 'TIME_UP' ? (
         <p className={styles.rank} style={{ color: color }}>タイムアップ！</p>
       ) : (
