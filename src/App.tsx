@@ -4,14 +4,11 @@ import { StopScreen } from './components/StopScreen';
 import { ResultScreen } from './components/ResultScreen';
 import { RankModal } from './components/RankModal';
 import { judgeRank } from './utils/judgeRank';
+import { TARGET_TIME, LIMIT_TIME } from './constants/gameConfig';
 import styles from './App.module.css';
 
 // 画面仕様と状態遷移（GameState）の型定義
 type GameState = 'START' | 'STOP' | 'RESULT';
-
-// ゲームのルールに関する定数を定義
-const TARGET_TIME = 10.00;
-const LIMIT_TIME = 20.00;
 
 function App() {
   const [gameState, setGameState] = useState<GameState>('START');
@@ -111,7 +108,6 @@ function App() {
   return (
     <div className={styles.appContainer}>
       
-      {/* ℹ️ ランク一覧を見る ボタンエリア */}
       <div className={styles.header}>
         <button onClick={() => setIsModalOpen(true)} className={styles.modalTrigger}>
           ℹ️ ランク判定基準

@@ -1,3 +1,4 @@
+import { TARGET_TIME } from '../constants/gameConfig';
 import styles from './RankModal.module.css';
 
 type RankModalProps = {
@@ -12,7 +13,7 @@ export function RankModal({ isOpen, onClose }: RankModalProps) {
     <div className={styles.overlay}>
       <div className={styles.window}>
         <h3 className={styles.title}>🏆 ランク判定基準</h3>
-
+        
         <table className={styles.table}>
           <thead>
             <tr className={styles.tableHeader}>
@@ -24,27 +25,35 @@ export function RankModal({ isOpen, onClose }: RankModalProps) {
           <tbody>
             <tr className={styles.trCell}>
               <td className={`${styles.tdRank} ${styles.rankSS}`}>SS</td>
-              <td className={styles.tdCriteria}>10.00秒（ぴったり）</td>
+              <td className={styles.tdCriteria}>{TARGET_TIME.toFixed(2)}秒（ぴったり）</td>
               <td className={styles.tdDiff}>0.00秒</td>
             </tr>
             <tr className={styles.trCell}>
               <td className={`${styles.tdRank} ${styles.rankA}`}>A</td>
-              <td className={styles.tdCriteria}>9.90秒 〜 10.10秒</td>
+              <td className={styles.tdCriteria}>
+                {(TARGET_TIME - 0.10).toFixed(2)}秒 〜 {(TARGET_TIME + 0.10).toFixed(2)}秒
+              </td>
               <td className={styles.tdDiff}>±0.10秒以内</td>
             </tr>
             <tr className={styles.trCell}>
               <td className={`${styles.tdRank} ${styles.rankB}`}>B</td>
-              <td className={styles.tdCriteria}>9.80秒 〜 10.20秒</td>
+              <td className={styles.tdCriteria}>
+                {(TARGET_TIME - 0.20).toFixed(2)}秒 〜 {(TARGET_TIME + 0.20).toFixed(2)}秒
+              </td>
               <td className={styles.tdDiff}>±0.20秒以内</td>
             </tr>
             <tr className={styles.trCell}>
               <td className={`${styles.tdRank} ${styles.rankC}`}>C</td>
-              <td className={styles.tdCriteria}>9.50秒 〜 10.50秒</td>
+              <td className={styles.tdCriteria}>
+                {(TARGET_TIME - 0.50).toFixed(2)}秒 〜 {(TARGET_TIME + 0.50).toFixed(2)}秒
+              </td>
               <td className={styles.tdDiff}>±0.50秒以内</td>
             </tr>
             <tr className={styles.trCell}>
               <td className={`${styles.tdRank} ${styles.rankD}`}>D</td>
-              <td className={styles.tdCriteria}>9.49秒以下 / 10.51秒以上</td>
+              <td className={styles.tdCriteria}>
+                {(TARGET_TIME - 0.51).toFixed(2)}秒以下 / {(TARGET_TIME + 0.51).toFixed(2)}秒以上
+              </td>
               <td className={styles.tdDiff}>0.51秒以上</td>
             </tr>
           </tbody>
