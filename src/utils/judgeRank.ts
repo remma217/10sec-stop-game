@@ -29,7 +29,7 @@ export function judgeRank(measuredTime: number): JudgeResult {
   const timeDiff = parseFloat(Math.abs(measuredTime - 10.00).toFixed(2));
 
   if (timeDiff === 0) return { rank: 'SS', message: 'おめでとう！ぴったり10秒！', color: RANK_COLORS.SS };
-  if (timeDiff <= 0.05) return { rank: 'A', message: '素晴らしい精度！お見事！', color: RANK_COLORS.A };
+  if (timeDiff <= 0.10) return { rank: 'A', message: '素晴らしい精度！お見事！', color: RANK_COLORS.A };
   if (timeDiff <= 0.20) return { rank: 'B', message: 'かなりの好記録！あと少し！', color: RANK_COLORS.B };
   if (timeDiff <= 0.50) return { rank: 'C', message: 'まずまずの記録！', color: RANK_COLORS.C };
   return { rank: 'D', message: 'まだまだ挑戦！', color: RANK_COLORS.D };

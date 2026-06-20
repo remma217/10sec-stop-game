@@ -12,7 +12,7 @@ export function RankModal({ isOpen, onClose }: RankModalProps) {
     <div className={styles.overlay}>
       <div className={styles.window}>
         <h3 className={styles.title}>🏆 ランク判定基準</h3>
-        
+
         <table className={styles.table}>
           <thead>
             <tr className={styles.tableHeader}>
@@ -29,8 +29,8 @@ export function RankModal({ isOpen, onClose }: RankModalProps) {
             </tr>
             <tr className={styles.trCell}>
               <td className={`${styles.tdRank} ${styles.rankA}`}>A</td>
-              <td className={styles.tdCriteria}>9.95秒 〜 10.05秒</td>
-              <td className={styles.tdDiff}>±0.05秒以内</td>
+              <td className={styles.tdCriteria}>9.90秒 〜 10.10秒</td>
+              <td className={styles.tdDiff}>±0.10秒以内</td>
             </tr>
             <tr className={styles.trCell}>
               <td className={`${styles.tdRank} ${styles.rankB}`}>B</td>
