@@ -12,7 +12,7 @@ export function judgeRank(measuredTime: number): JudgeResult {
     return { rank: 'TIME_UP', message: 'タイムアップ！10秒を大幅に過ぎてしまいました。', color: '#dc3545' };
   }
 
-  const timeDiff = Math.abs(measuredTime - 10.00);
+  const timeDiff = parseFloat(Math.abs(measuredTime - 10.00).toFixed(2));
 
   if (timeDiff === 0) return { rank: 'SS', message: '神の体内時計！ジャスト10秒！', color: '#ffcc00' };
   if (timeDiff <= 0.05) return { rank: 'A', message: '素晴らしい精度！プロ級です！', color: '#ff4d4d' };
