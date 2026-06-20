@@ -26,11 +26,11 @@ function App() {
     setGameState('STOP');
 
     // 開始時刻を高精度タイムスタンプで記録
-    startTimeRef.current = window.performance.now();
+    startTimeRef.current = performance.now();
 
     // ループ関数を定義してリアルタイムに時間を更新
     const updateTimer = () => {
-      const currentTime = window.performance.now();
+      const currentTime = performance.now();
       const currentElapsed = (currentTime - startTimeRef.current) / 1000;
 
       // 20秒の上限チェック
@@ -61,8 +61,8 @@ function App() {
       timerIdRef.current = null;
     }
 
-    // 最終的な確定時間を計測してセット（ミリ秒未満のわずかなズレもここで完全に補正）
-    const finalTime = (window.performance.now() - startTimeRef.current) / 1000;
+    // 最終的な確定時間を計測してセット
+    const finalTime = (performance.now() - startTimeRef.current) / 1000;
     setElapsedTime(finalTime);
     setGameState('RESULT');
 
