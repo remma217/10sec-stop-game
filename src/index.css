@@ -1,7 +1,14 @@
+:root {
+  --main-color: #4CB5F5;
+  --main-color-hover: #3ca2e0;
+  --sub-color: #FF8C00;
+  --sub-color-hover: #E07B00;
+  --danger-color: #ff4d4d;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
   background-color: #f5f5f5;
   color: #333;
 }

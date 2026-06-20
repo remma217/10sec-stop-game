@@ -1,0 +1,82 @@
+.appContainer {
+  text-align: center;
+  padding: 40px 20px;
+  max-Width: 600px;
+  margin: 0 auto;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.header {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+.modalTrigger {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--main-color);
+  text-decoration: underline;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.modalTrigger:hover {
+  background-color: #e6f2ff;
+  color: var(--main-color-hover);
+}
+
+.title {
+  font-size: 2.2rem;
+  color: #222;
+  margin-bottom: 30px;
+}
+
+/* 自己ベスト表示エリア */
+.bestScoreContainer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px dashed #ccc;
+  color: #555;
+}
+
+.bestScoreText {
+  font-size: 1.15rem;
+  font-weight: bold;
+}
+
+.bestScoreValue {
+  color: var(--main-color);
+}
+
+.bestScoreSub {
+  font-size: 1.15rem;
+  color: #888;
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+.noRecordText {
+  font-style: italic;
+  color: #888;
+}
+
+/* リセットボタン */
+.resetButton {
+  margin-left: 12px;
+  color: #dc3545;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.15rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.resetButton:hover {
+  background-color: #f8d7da;
+}
