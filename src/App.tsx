@@ -87,7 +87,7 @@ function App() {
     setGameState('START');
   };
 
-  // 自己ベストクリア処理
+  // 自己ベストリセット処理
   const handleResetBest = () => {
     if (window.confirm('これまでの自己ベストの記録を完全にリセットしますか？')) {
       localStorage.removeItem('best_measured_time');
@@ -131,7 +131,7 @@ function App() {
             </span>
             {/* リセットボタン */}
             <button onClick={handleResetBest} className={styles.resetButton} title="記録をリセット">
-              [クリア]
+              [リセット]
             </button>
           </p>
         ) : (
