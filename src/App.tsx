@@ -9,6 +9,10 @@ import styles from './App.module.css';
 // 画面仕様と状態遷移（GameState）の型定義
 type GameState = 'START' | 'STOP' | 'RESULT';
 
+// ゲームのルールに関する定数を定義
+const TARGET_TIME = 10.00;
+const LIMIT_TIME = 20.00;
+
 function App() {
   const [gameState, setGameState] = useState<GameState>('START');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -33,18 +37,18 @@ function App() {
       const currentTime = performance.now();
       const currentElapsed = (currentTime - startTimeRef.current) / 1000;
 
-      // 20秒の上限チェック
-      if (currentElapsed >= 20.00) {
+      // 上限時間のチェックに定数を適用
+      if (currentElapsed >= LIMIT_TIME) {
         if (timerIdRef.current !== null) {
           cancelAnimationFrame(timerIdRef.current);
           timerIdRef.current = null;
         }
-        setElapsedTime(20.00);
+        setElapsedTime(LIMIT_TIME);
         setGameState('RESULT');
         return;
       }
 
-      // 20秒未満なら通常通りカウントアップを続ける
+      // 上限時間未満なら通常通りカウントアップを続ける
       setElapsedTime(currentElapsed);
       timerIdRef.current = requestAnimationFrame(updateTimer);
     };
@@ -67,13 +71,13 @@ function App() {
     setGameState('RESULT');
 
     // 自己ベスト判定のロジック
-    // タイムアップ（20秒）の場合は自己ベスト判定から除外する
-    if (finalTime < 20.00) {
-      // 今回の誤差を計算
-      const currentDiff = Math.abs(finalTime - 10.00);
+    // タイムアップの場合は自己ベスト判定から除外する
+    if (finalTime < LIMIT_TIME) {
+      // 今回の誤差を計算（ターゲット時間の定数を適用）
+      const currentDiff = Math.abs(finalTime - TARGET_TIME);
 
-      // 過去の自己ベストの「誤差」を計算（bestTimeが存在する場合のみ）
-      const previousBestDiff = bestTime !== null ? Math.abs(bestTime - 10.00) : null;
+      // 過去の自己ベストの誤差を計算（bestTimeが存在する場合のみターゲット時間の定数を適用）
+      const previousBestDiff = bestTime !== null ? Math.abs(bestTime - TARGET_TIME) : null;
 
       // 過去の記録が無い、または「今回の誤差」の方が「過去のベスト誤差」より小さければ更新
       if (previousBestDiff === null || currentDiff < previousBestDiff) {
@@ -135,7 +139,7 @@ function App() {
                   [ランク{rank}]
                 </span>
                 <span className={styles.bestScoreSub}>
-                  (誤差: {Math.abs(bestTime - 10.00).toFixed(2)}秒)
+                  (誤差: {Math.abs(bestTime - TARGET_TIME).toFixed(2)}秒)
                 </span>
                 {/* リセットボタン */}
                 <button onClick={handleResetBest} className={styles.resetButton} title="記録をリセット">
