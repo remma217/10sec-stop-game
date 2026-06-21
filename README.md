@@ -1,73 +1,33 @@
-# React + TypeScript + Vite
+# 10秒ストップゲーム
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 公開URL
+* https://10sec-stop-game.vercel.app
 
-Currently, two official plugins are available:
+## アプリ概要
+アプリ名の通り、できるだけ10秒ぴったりでタイマーストップを目指すシンプルなゲームです。  
+タイムに応じてランクが表示されます。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## アプリ制作の背景
+- 「開発からデプロイまでの一貫した経験を積んでみたい」という気持ちがあり、ミニアプリという小規模で初めてのアプリを制作しました。
+- 実装・学習の挫折を防ぎたかったため、バックエンドは省略し、ユーザーのブラウザ（フロントエンド）側だけで完結する「静的シングルページアプリケーション（SPA）」の構成となっています。
+- Geminiを制作の補助として活用しています。ハンズオン形式で段階的に開発を進め、開発と併せてキャッチアップも目的の一つとしました。
 
-## React Compiler
+## できること（機能一覧）
+* **高精度タイマー機能**: `requestAnimationFrame` および `performance.now` を用いたミリ秒単位のリアルタイムカウントアップ。
+* **ステルス演出**: スタートから3.00秒が経過すると、タイマーの数字が徐々にボヤけて見えなくなる演出による難易度向上。
+* **厳密なランク判定**: ストップした時間と10.00秒との誤差を計算し、SSからDまでの5段階（＋タイムアップ）で評価。浮動小数点数の丸め誤差を排除した正確な判定アルゴリズムを搭載。
+* **自己ベスト記録のローカル保存**: ブラウザの `LocalStorage` を活用し、過去の最高記録（最も誤差が小さかった記録）を自動保存。達成時のランクも動的なカラーで併せて表示。
+* **自己ベストのリセット機能**: 誤った記録や過去の記録を完全に消去し、最初から挑戦し直すためのデータクリア機能。
+* **SSランク達成時の特別演出**: 10.00秒ジャスト（SSランク）を達成した際、3秒おきに紙吹雪がループして打ち上がる視覚的演出。
+* **判定基準モーダル**: いつでもゲームのルールや各ランクの達成条件（許容誤差範囲）を確認できるインフォメーション表示。
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 技術スタック
+* **使用言語**: TypeScript / JavaScript
+* **フレームワーク**: React (Viteベースの環境構築)
+* **スタイル管理**: CSS Modules (Scoped CSS によるスタイル管理) / CSS変数を用いたデザインシステム統合
+* **インフラ / ホスティング**: Vercel
+* **その他ライブラリ・ツール**: canvas-confetti (紙吹雪演出用ライブラリ) / Git・GitHub
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 今後の改善ポイント
+* **ソーシャルシェア連携**: 叩き出した記録やランクをX（旧Twitter）などのSNSへワンクリックでシェアできるボタンの実装。
+* **ターゲット時間のカスタム機能**: 10秒だけでなく、5秒や30秒などユーザーが目標時間を自由に設定して遊べるモードの拡張。
